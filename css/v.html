@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AttendPulse - Enterprise Attendance Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cabinet+Grotesk:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- ULTRA-PREMIUM VIBRANT LIGHT THEME --- */
+        :root {
+            --bg-base: #f4f7fc;         /* Crisp Airy Sky White */
+            --surface: #ffffff;         /* Pure Elegant Pearl */
+            --surface-subtle: #f8fafc;  /* Soft Slate Tint */
+            
+            --brand-primary: #4f46e5;   /* Deep Royal Indigo */
+            --brand-secondary: #0ea5e9; /* Vivid Electric Blue */
+            --brand-accent: #6366f1;
+            
+            --success: #10b981;         /* Fresh Mint Green */
+            --success-bg: #e6f4ea;
+            --danger: #ef4444;          /* Sharp Strawberry Red */
+            --danger-bg: #fce8e6;
+            --warning: #f59e0b;         /* Bright Amber Gold */
+            --warning-bg: #fef3c7;
+            
+            --text-main: #0f172a;       /* Deep Obsidian Gray (High Contrast) */
+            --text-muted: #64748b;      /* Slate Executive Gray */
+            --border-color: #e2e8f0;    /* Premium Smooth Divider */
+            --date-highlight: #2563eb;  /* Dynamic Indigo Blue for Dates */
+        }
+
+        /* --- STYLING RESET FOR COMPACT NATIVE APP FEEL --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Fixed Corporate Premium Top Bar */
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* --- MAST BRAND LOGO ENGINE --- */
+        .brand-logo {
+            font-family: 'Cabinet Grotesk', sans-serif;
+            font-size: 1.65rem; 
+            font-weight: 900;
+            letter-spacing: -0.8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+        }
+
+        .logo-icon-wrapper {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            animation: app-pulse 3s infinite ease-in-out;
+        }
+
+        .logo-icon-wrapper i {
+            font-size: 1.15rem;
+            color: #ffffff;
+        }
+
+        .logo-text-attend {
+            color: var(--text-main);
+        }
+
+        .logo-text-pulse {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glowing Dot between words */
+        .logo-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--brand-secondary);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 1px;
+            box-shadow: 0 0 8px var(--brand-secondary);
+            animation: dot-glow 1.5s infinite ease-in-out;
+        }
+
+        @keyframes app-pulse {
+            0% { transform: scale(1); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); }
+            50% { transform: scale(1.05); box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); }
+        }
+
+        @keyframes dot-glow {
+            0% { opacity: 0.4; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        /* CRISP PROFESSIONAL STUDENT PASSPORT CARD */
+        .student-badge-card {
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-color);
+            padding: 6px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .student-badge-card:hover {
+            background: #ffffff;
+            border-color: var(--brand-primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .student-avatar {
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            width: 34px;
+            height: 34px;
+            border-radius: 10px; /* Modern Rounded Squircle */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+        }
+
+        .student-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .student-name-display {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .student-roll-display {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .btn-reset {
+            background: #fff;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-reset:hover {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        /* --- CONTAINER SCROLL ARCHITECTURE --- */
+        .app-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding-bottom: 60px;
+        }
+
+        .app-container::-webkit-scrollbar { width: 6px; }
+        .app-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* --- IDENTITY MANAGEMENT POPDOWN --- */
+        .profile-setup-box {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            animation: slideDown 0.25s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-8px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .profile-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        /* --- MODULE GENERATOR BOX --- */
+        .add-subject-panel {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+        }
+
+        .panel-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--brand-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-row { display: flex; gap: 12px; }
+        .input-group { flex: 1; position: relative; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        
+        .input-control {
+            width: 100%;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-color);
+            padding: 12px 15px 12px 42px;
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .input-control:focus { outline: none; border-color: var(--brand-primary); background: #fff; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+
+        .btn-add {
+            background: var(--brand-primary);
+            color: #fff;
+            border: none;
+            padding: 0 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-add:hover { background: #4338ca; }
+
+        /* --- GLOBAL DATA SUMMARY METRICS --- */
+        .master-panel {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.02);
+        }
+
+        .master-info h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; color: var(--text-main); }
+        .master-info p { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+        
+        .global-percentage { 
+            font-size: 3.4rem; 
+            font-weight: 900; 
+            font-family: 'Cabinet Grotesk', sans-serif; 
+            color: var(--brand-primary);
+            text-align: right;
+            line-height: 1;
+        }
+        .global-badge { display: inline-block; padding: 5px 12px; border-radius: 8px; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; margin-top: 6px; }
+        .bg-safe { background: var(--success-bg); color: var(--success); }
+        .bg-danger { background: var(--danger-bg); color: var(--danger); }
+
+        /* --- THE RICH LIGHT SUBJECT CARDS GRID --- */
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .subject-card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.01);
+            transition: all 0.25s ease;
+        }
+        .subject-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.04);
+            border-color: #cbd5e1;
+        }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .subject-title-area { max-width: 75%; }
+        .subject-name { font-size: 1.05rem; font-weight: 800; color: var(--text-main); line-height: 1.3; margin-bottom: 6px; }
+        
+        .btn-remove-subject {
+            background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s;
+        }
+        .btn-remove-subject:hover { color: var(--danger); }
+        .subject-percentage { font-size: 1.6rem; font-weight: 900; font-family: 'Cabinet Grotesk', sans-serif; }
+
+        .last-updated-log {
+            font-size: 0.78rem; color: var(--text-muted); background: var(--surface-subtle); padding: 6px 12px; border-radius: 8px; display: flex; align-items: center; gap: 6px; margin-bottom: 16px; font-weight: 600;
+        }
+        .last-updated-log strong {
+            color: var(--date-highlight);
+            font-weight: 700;
+        }
+
+        .card-stats-row { display: flex; gap: 12px; margin-bottom: 18px; }
+        .mini-stat-box { flex: 1; background: var(--surface-subtle); padding: 10px 14px; border-radius: 10px; border: 1px solid #f1f5f9; }
+        .mini-stat-box span { display: block; font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.3px; }
+        .mini-stat-box font { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+        
+        .card-advice { font-size: 0.82rem; font-weight: 600; margin-bottom: 18px; color: #334155; display: flex; align-items: center; gap: 6px; }
+
+        .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .btn-action { padding: 12px; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
+        
+        .btn-p { background: var(--brand-primary); color: #fff; }
+        .btn-p:hover { background: #4338ca; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
+        
+        .btn-a { background: #fff; color: var(--text-main); border: 1px solid var(--border-color); }
+        .btn-a:hover { background: var(--surface-subtle); border-color: #cbd5e1; }
+
+        /* --- ENTERPRISE WHITE TIMELINE ARCHITECTURE --- */
+        .history-panel { background: var(--surface); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.01); }
+        .history-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        .history-title { font-size: 1rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .history-title i { color: var(--brand-primary); }
+        .btn-clear-hist { background: transparent; border: none; color: var(--text-muted); font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+        .btn-clear-hist:hover { color: var(--danger); }
+
+        .history-list { max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .history-item { background: var(--surface-subtle); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; }
+        .hist-meta { display: flex; flex-direction: column; gap: 2px; }
+        .hist-sub-name { font-weight: 700; color: var(--text-main); }
+        .hist-time { font-size: 0.75rem; color: var(--date-highlight); font-weight: 600; }
+        
+        .hist-badge { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; }
+        .hist-badge.present { background: var(--success-bg); color: var(--success); }
+        .hist-badge.absent { background: var(--danger-bg); color: var(--danger); }
+        .no-history-placeholder { text-align: center; color: var(--text-muted); padding: 30px 0; font-size: 0.85rem; font-style: italic; }
+
+        @media (max-width: 768px) {
+            header { padding: 14px 16px; flex-direction: column; gap: 14px; align-items: stretch; }
+            .brand-group { justify-content: space-between; }
+            .profile-inputs { grid-template-columns: 1fr; }
+            .master-panel { flex-direction: column; text-align: center; gap: 15px; padding: 20px; }
+            .global-percentage { text-align: center; }
+            .form-row { flex-direction: column; }
+            .btn-add { padding: 12px; justify-content: center; }
+        }
+    
+.dark-mode{
+--bg-base:#0f172a;
+--surface:#1e293b;
+--surface-subtle:#334155;
+--text-main:#f8fafc;
+--text-muted:#94a3b8;
+--border-color:#475569;
+}
+</style>
+</head>
+<body>
+
+    <!-- Professional Light Corporate Header Bar -->
+    <header>
+        <div class="brand-group">
+            <!-- New Mast Premium Brand Identity Layout -->
+            <div class="brand-logo">
+                <div class="logo-icon-wrapper">
+                    <i class="fa-solid fa-wave-square"></i>
+                </div>
+                <div>
+                    <span class="logo-text-attend">Attend</span><span class="logo-dot"></span><span class="logo-text-pulse">Pulse</span>
+                </div>
+            </div>
+            
+            <!-- Elegant Squircle Student Badge Card -->
+            <div class="student-badge-card" onclick="toggleProfilePanel()" title="Click to update identity profile">
+                <div class="student-avatar" id="avatar-initials">U</div>
+                <div class="student-details">
+                    <span class="student-name-display" id="name-view">Enter Your Name</span>
+                    <span class="student-roll-display" id="roll-view">Enter Your Roll No.</span>
+                </div>
+                <i class="fa-solid fa-chevron-down" style="font-size: 0.65rem; color: var(--text-muted); margin-left: 4px;"></i>
+            </div>
+        </div>
+        
+        
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn-reset" onclick="toggleTheme()">Theme</button>
+<button class="btn-reset" onclick="exportPDF()">PDF</button>
+<button class="btn-reset" onclick="backupData()">Backup</button>
+<input type="file" id="restoreFile" style="display:none" onchange="restoreData(event)">
+<button class="btn-reset" onclick="document.getElementById('restoreFile').click()">Restore</button>
+<button class="btn-reset" onclick="resetAllData()"><i class="fa-solid fa-arrows-rotate"></i> Clear App Data</button>
+</div>
+    </header>
+
+    <div class="app-container">
+        
+        <!-- Premium Minimalist Profile Dropdown Form -->
+        <div class="profile-setup-box" id="profile-panel">
+            <div class="panel-title" style="color: var(--text-main);">
+                <span><i class="fa-solid fa-user-gear" style="color: var(--brand-primary)"></i> Configure Authorized Student Profile</span>
+                <i class="fa-solid fa-xmark" style="cursor:pointer; color: var(--text-muted);" onclick="toggleProfilePanel()"></i>
+            </div>
+            <div class="profile-inputs">
+                <div class="input-group">
+                    <i class="fa-solid fa-signature"></i>
+                    <input type="text" id="student-name-input" class="input-control" placeholder="Enter Your Name">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-id-card"></i>
+                    <input type="text" id="student-roll-input" class="input-control" placeholder="Enter Your Roll No.">
+                </div>
+                <button class="btn-add" onclick="saveProfileData()">Save Profile</button>
+            </div>
+        </div>
+        
+        <!-- Add Custom Course Modules Terminal -->
+        <div class="add-subject-panel">
+            <div class="panel-title">
+                <span><i class="fa-solid fa-folder-plus"></i> Initialize Academic Course Unit</span>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <input type="text" id="new-subject-name" class="input-control" placeholder="Type name (e.g. Data Structures)..." autocomplete="off">
+                </div>
+                <button class="btn-add" onclick="addNewSubject()">
+                    <i class="fa-solid fa-plus"></i> Add Subject
+                </button>
+            </div>
+        </div>
+
+        <!-- Global ERP Analytics Shelf Grid -->
+        <div class="master-panel">
+            <div class="master-info">
+                <h2 id="master-title-text">Portal Dashboard</h2>
+                <p id="master-advice-text">Your structural optimization logic summary across all mapped computational science modules.</p>
+            </div>
+            <div class="master-score-box">
+                <div class="global-percentage" id="global-percent-view">0.0%</div>
+                <div class="global-badge" id="global-badge-view">Sync Ready</div>
+            </div>
+        </div>
+
+        <!-- Clean Subject Metrics Cards Display -->
+        <div class="subject-grid" id="grid-container"></div>
+
+        
+<div class="history-panel">
+<div class="history-header-row">
+<div class="history-title"><i class="fa-solid fa-chart-column"></i> Attendance Analytics</div>
+</div>
+<div style="height:350px"><canvas id="attendanceChart"></canvas></div>
+</div>
+<!-- Real-Time Activity Log Console -->
+        <div class="history-panel">
+            <div class="history-header-row">
+                <div class="history-title">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Core Activity Chronological Logs
+                </div>
+                <button class="btn-clear-hist" onclick="clearHistory()">Wipe Logs</button>
+            </div>
+            <div class="history-list" id="history-container"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // High-Grade Enterprise Seeding Configuration
+        const defaultSubjects = [
+            { key: "dsa", name: "Data Structures (DSA)", present: 0, total: 0, lastUpdated: "Never Status" },
+            { key: "oop", name: "Object-Oriented Programming (OOP)", present: 0, total: 0, lastUpdated: "Never Status" },
+            { key: "math", name: "Discrete Mathematics", present: 0, total: 0, lastUpdated: "Never Status" },
+            { key: "logic", name: "Digital Logic & Electronics", present: 0, total: 0, lastUpdated: "Never Status" },
+            { key: "coa", name: "Computer Organization & Architecture (COA)", present: 0, total: 0, lastUpdated: "Never Status" }
+        ];
+
+        let subjectData = JSON.parse(localStorage.getItem('attendpulse_sub_v6')) || defaultSubjects;
+        let historyData = JSON.parse(localStorage.getItem('attendpulse_hist_v6')) || [];
+        let profileData = JSON.parse(localStorage.getItem('attendpulse_prof_v6')) || { name: "", roll: "" };
+
+        function syncAppState() {
+            localStorage.setItem('attendpulse_sub_v6', JSON.stringify(subjectData));
+            localStorage.setItem('attendpulse_hist_v6', JSON.stringify(historyData));
+            localStorage.setItem('attendpulse_prof_v6', JSON.stringify(profileData));
+            loadTheme(); renderAppUI(); renderAttendanceChart();
+        }
+
+        function toggleProfilePanel() {
+            const panel = document.getElementById('profile-panel');
+            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function saveProfileData() {
+            profileData.name = document.getElementById('student-name-input').value.trim();
+            profileData.roll = document.getElementById('student-roll-input').value.trim();
+            toggleProfilePanel();
+            syncAppState();
+        }
+
+        function addNewSubject() {
+            const input = document.getElementById('new-subject-name');
+            const name = input.value.trim();
+            if(!name) return alert("Please specify a valid core subject name.");
+
+            const key = "custom_" + Date.now();
+            subjectData.push({ key, name, present: 0, total: 0, lastUpdated: "Never Status" });
+            input.value = "";
+            syncAppState();
+        }
+
+        function removeSubject(key) {
+            if(confirm("Confirm deletion? This subject will be removed from your dashboard.")) {
+                subjectData = subjectData.filter(sub => sub.key !== key);
+                syncAppState();
+            }
+        }
+
+        function markSubject(key, isPresent) {
+            const subject = subjectData.find(sub => sub.key === key);
+            if (subject) {
+                const now = new Date();
+                const fullLogTime = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ", " + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                const statusText = isPresent ? "Present" : "Absent";
+
+                subject.total += 1;
+                if (isPresent) subject.present += 1;
+                
+                subject.lastUpdated = `${statusText} — <strong>${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at ${now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</strong>`;
+
+                historyData.unshift({
+                    id: Date.now(),
+                    subjectName: subject.name,
+                    timestamp: fullLogTime,
+                    status: statusText
+                });
+
+                syncAppState();
+            }
+        }
+
+        function clearHistory() {
+            if(confirm("Are you sure you want to clear your timeline log history?")) { historyData = []; syncAppState(); }
+        }
+
+        function resetAllData() {
+            if (confirm("Reset App? This removes all configurations, student identity, logs, and targets.")) {
+                subjectData = defaultSubjects.map(s => ({...s, present: 0, total: 0, lastUpdated: "Never Status"}));
+                historyData = [];
+                profileData = { name: "", roll: "" };
+                syncAppState();
+            }
+        }
+
+        function renderAppUI() {
+            const grid = document.getElementById('grid-container');
+            const historyContainer = document.getElementById('history-container');
+            grid.innerHTML = '';
+            historyContainer.innerHTML = '';
+
+            const nameView = document.getElementById('name-view');
+            const rollView = document.getElementById('roll-view');
+            const avatarView = document.getElementById('avatar-initials');
+            const masterTitle = document.getElementById('master-title-text');
+
+            if(profileData.name) {
+                nameView.innerText = profileData.name;
+                avatarView.innerText = profileData.name.substring(0, 2);
+                masterTitle.innerText = `${profileData.name}'s Core Dashboard`;
+            } else {
+                nameView.innerText = "Enter Your Name";
+                avatarView.innerText = "ID";
+                masterTitle.innerText = "Student Terminal Dashboard";
+            }
+            rollView.innerText = profileData.roll ? `Roll: ${profileData.roll}` : "Enter Your Roll No.";
+            
+            document.getElementById('student-name-input').value = profileData.name;
+            document.getElementById('student-roll-input').value = profileData.roll;
+
+            if(!profileData.name && !profileData.roll && historyData.length === 0) {
+                document.getElementById('profile-panel').style.display = 'block';
+            }
+
+            let aggregateTotal = 0, aggregatePresent = 0;
+
+            subjectData.forEach(sub => {
+                aggregateTotal += sub.total;
+                aggregatePresent += sub.present;
+
+                let percent = sub.total === 0 ? 0 : (sub.present / sub.total) * 100;
+                let isSafe = percent >= 75;
+                let percentColor = sub.total === 0 ? "var(--text-muted)" : (isSafe ? "var(--success)" : "var(--danger)");
+                
+                let adviceText = "";
+                if (sub.total === 0) {
+                    adviceText = `<i class="fa-solid fa-circle-notch" style="color:var(--brand-secondary)"></i> Ready for tracking inputs.`;
+                } else if (percent >= 75) {
+                    let bunks = 0, tPres = sub.present, tTot = sub.total;
+                    while (true) { tTot++; if ((tPres / tTot) * 100 >= 75) bunks++; else break; }
+                    adviceText = bunks === 0 ? 
+                        `<i class="fa-solid fa-shield-halved" style="color:var(--warning)"></i> Critical Margin! Skip forbidden.` : 
+                        `<i class="fa-solid fa-circle-check" style="color:var(--success)"></i> Safe to skip next <strong>${bunks} lecture(s)</strong>.`;
+                } else {
+                    let req = 0, tPres = sub.present, tTot = sub.total;
+                    while ((tPres / tTot) * 100 < 75) { tPres++; tTot++; req++; }
+                    adviceText = `<i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i> Must attend next <strong>${req} classes</strong> cleanly.`;
+                }
+
+                const cardHTML = `
+                    <div class="subject-card">
+                        <div>
+                            <div class="card-header">
+                                <div class="subject-title-area">
+                                    <div class="subject-name">${sub.name}</div>
+                                    <button class="btn-remove-subject" onclick="removeSubject('${sub.key}')">
+                                        <i class="fa-regular fa-trash-can"></i> Delete Unit
+                                    </button>
+                                </div>
+                                <div class="subject-percentage" style="color: ${percentColor}">${percent.toFixed(0)}%</div>
+                            </div>
+                            <div class="last-updated-log">
+                                <i class="fa-regular fa-clock"></i> ${sub.lastUpdated}
+                            </div>
+                            <div class="card-stats-row">
+                                <div class="mini-stat-box">
+                                    <span>Attended Logs</span>
+                                    <font style="color: var(--success)">${sub.present}</font>
+                                </div>
+                                <div class="mini-stat-box">
+                                    <span>Total Mapped</span>
+                                    <font style="color: var(--brand-primary)">${sub.total}</font>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="card-advice">${adviceText}</div>
+                            <div class="card-actions">
+                                <button class="btn-action btn-p" onclick="markSubject('${sub.key}', true)">
+                                    <i class="fa-solid fa-square-check"></i> Present
+                                </button>
+                                <button class="btn-action btn-a" onclick="markSubject('${sub.key}', false)">
+                                    Absent
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', cardHTML);
+            });
+
+            if(historyData.length === 0) {
+                historyContainer.innerHTML = `<div class="no-history-placeholder">No chronological logs tracked in current cycle.</div>`;
+            } else {
+                historyData.forEach(item => {
+                    const badgeClass = item.status.toLowerCase() === 'present' ? 'present' : 'absent';
+                    const historyHTML = `
+                        <div class="history-item">
+                            <div class="hist-meta">
+                                <span class="hist-sub-name">${item.subjectName}</span>
+                                <span class="hist-time"><i class="fa-regular fa-calendar-days"></i> ${item.timestamp}</span>
+                            </div>
+                            <span class="hist-badge ${badgeClass}">${item.status}</span>
+                        </div>
+                    `;
+                    historyContainer.insertAdjacentHTML('beforeend', historyHTML);
+                });
+            }
+
+            const pView = document.getElementById('global-percent-view');
+            const bView = document.getElementById('global-badge-view');
+            const mText = document.getElementById('master-advice-text');
+
+            if (aggregateTotal === 0) {
+                pView.innerText = "0.0%"; bView.innerText = "No Logs"; bView.className = "global-badge bg-safe";
+            } else {
+                let globPercent = (aggregatePresent / aggregateTotal) * 100;
+                pView.innerText = globPercent.toFixed(1) + "%";
+                if(globPercent >= 75) {
+                    bView.innerText = "Threshold Passed"; bView.className = "global-badge bg-safe";
+                    mText.innerHTML = `Dynamic Stability Confirmed. Safe operation at <strong style="color:var(--success)">${aggregatePresent}</strong> logs of <strong style="color:var(--brand-primary)">${aggregateTotal} lectures</strong>.`;
+                } else {
+                    bView.innerText = "Deficit Action Required"; bView.className = "global-badge bg-danger";
+                    mText.innerHTML = `Critical deficit detected at <strong style="color:var(--danger)">${globPercent.toFixed(1)}%</strong>. Immediate lecture attendance required.`;
+                }
+            }
+        }
+
+        loadTheme(); renderAppUI(); renderAttendanceChart();
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+let attendanceChart=null;
+function toggleTheme(){document.body.classList.toggle('dark-mode');localStorage.setItem('attendpulse_theme',document.body.classList.contains('dark-mode')?'dark':'light');}
+function loadTheme(){if(localStorage.getItem('attendpulse_theme')==='dark'){document.body.classList.add('dark-mode');}}
+
+function renderAttendanceChart(){
+const c=document.getElementById('attendanceChart');
+if(!c)return;
+const labels=subjectData.map(s=>s.name);
+const data=subjectData.map(s=>s.total===0?0:((s.present/s.total)*100).toFixed(1));
+if(attendanceChart)attendanceChart.destroy();
+attendanceChart=new Chart(c.getContext('2d'),{type:'bar',data:{labels:labels,datasets:[{label:'Attendance %',data:data}]},options:{responsive:true,maintainAspectRatio:false}});
+}
+
+function exportPDF(){
+const {jsPDF}=window.jspdf;
+const doc=new jsPDF();
+doc.text('AttendPulse Report',20,20);
+let y=40;
+subjectData.forEach(s=>{
+const p=s.total===0?0:((s.present/s.total)*100).toFixed(1);
+doc.text(`${s.name}: ${p}% (${s.present}/${s.total})`,20,y);
+y+=10;
+});
+doc.save('AttendPulse_Report.pdf');
+}
+
+function backupData(){
+const blob=new Blob([JSON.stringify({subjectData,historyData,profileData},null,2)],{type:'application/json'});
+const a=document.createElement('a');
+a.href=URL.createObjectURL(blob);
+a.download='AttendPulse_Backup.json';
+a.click();
+}
+
+function restoreData(e){
+const file=e.target.files[0];
+if(!file)return;
+const r=new FileReader();
+r.onload=function(x){
+const d=JSON.parse(x.target.result);
+subjectData=d.subjectData||[];
+historyData=d.historyData||[];
+profileData=d.profileData||{};
+syncAppState();
+};
+r.readAsText(file);
+}
+</script>
+</body>
+</html>

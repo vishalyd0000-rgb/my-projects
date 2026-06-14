@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Quantum Matrix Universe</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #020208;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #ui-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #00ffcc;
+            pointer-events: none;
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.6);
+        }
+        h1 { margin: 0 0 5px 0; font-size: 20px; letter-spacing: 3px; }
+        .status { font-size: 12px; color: #ff0055; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        
+        /* Interactive Warp Button */
+        #warp-btn {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: 2px solid #00ffcc;
+            color: #00ffcc;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+            transition: all 0.3s ease;
+        }
+        #warp-btn:hover {
+            background: #00ffcc;
+            color: #020208;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.8);
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ui-overlay">
+        <h1>QUANTUM MATRIX UNIVERSE V.1.0</h1>
+        <div class="status">// CORE STATUS: ANOMALOUS & HYPER-REACTIVE</div>
+        <div style="margin-top: 10px; color: #888; font-size: 11px;">
+            [MOUSE] Move to bend reality space<br>
+            [DRAG] Rotate Dimension | [SCROLL] Zoom
+        </div>
+    </div>
+
+    <button id="warp-btn" onclick="triggerWarp()">ACTIVATE HYPER-WARP</button>
+
+    <div id="canvas-container"></div>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        let scene, camera, renderer, controls;
+        let core, particleSystem, neonOrbits = [];
+        let mouseX = 0, mouseY = 0;
+        let targetWarpSpeed = 0.001, currentWarpSpeed = 0.001;
+        
+        const container = document.getElementById('canvas-container');
+
+        function init() {
+            // 1. Scene & Setup
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x020208, 0.005);
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 40, 90);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.maxDistance = 200;
+
+            // 2. Lights
+            const ambient = new THREE.AmbientLight(0x0a0a20);
+            scene.add(ambient);
+
+            const pointLight = new THREE.PointLight(0x00ffff, 3, 150);
+            scene.add(pointLight);
+
+            // 3. The Quantum Core (Replacing traditional Sun)
+            // Ek ajeeb wireframe structure jo andar-bahar rotate karega
+            core = new THREE.Group();
+            
+            const coreGeo1 = new THREE.IcosahedronGeometry(6, 1);
+            const coreMat1 = new THREE.MeshBasicMaterial({ color: 0xff0055, wireframe: true });
+            const coreMesh1 = new THREE.Mesh(coreGeo1, coreMat1);
+            core.add(coreMesh1);
+
+            const coreGeo2 = new THREE.OctahedronGeometry(4, 0);
+            const coreMat2 = new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true });
+            const coreMesh2 = new THREE.Mesh(coreGeo2, coreMat2);
+            core.add(coreMesh2);
+
+            scene.add(core);
+
+            // 4. Cyber Cosmic Dust (Thousands of matrix stars)
+            const particleCount = 7000;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                // Spherical distribution for galaxy shape
+                const radius = Math.random() * 120 + 10;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
+
+                positions[i] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i + 1] = radius * Math.sin(phi) * Math.sin(theta) * 0.3; // Flattened galaxy
+                positions[i + 2] = radius * Math.cos(phi);
+
+                // Neon Colors mix (Cyberpunk theme: Pink, Blue, Purple)
+                const rand = Math.random();
+                if(rand < 0.33) {
+                    colors[i] = 0.0; colors[i+1] = 1.0; colors[i+2] = 0.8; // Cyan
+                } else if(rand < 0.66) {
+                    colors[i] = 1.0; colors[i+1] = 0.0; colors[i+2] = 0.33; // Pink
+                } else {
+                    colors[i] = 0.5; colors[i+1] = 0.0; colors[i+2] = 1.0; // Purple
+                }
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.4,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            particleSystem = new THREE.Points(geometry, material);
+            scene.add(particleSystem);
+
+            // 5. Matrix Quantum Planets & Neon Rings
+            const uniquePlanetsData = [
+                { radius: 16, size: 1.2, speed: 0.02, color: 0x00ffcc, wireframe: true },
+                { radius: 26, size: 2.2, speed: 0.012, color: 0xff0055, geometryType: 'torus' },
+                { radius: 38, size: 1.8, speed: 0.008, color: 0xffff00, wireframe: true },
+                { radius: 52, size: 3.5, speed: 0.005, color: 0x0077ff, rings: true },
+                { radius: 70, size: 2.0, speed: 0.003, color: 0xffffff, geometryType: 'tetra' }
+            ];
+
+            uniquePlanetsData.forEach((data, index) => {
+                let pGeo;
+                // Standard shapes se hatkar geometries
+                if(data.geometryType === 'torus') {
+                    pGeo = new THREE.TorusGeometry(data.size, 0.4, 8, 24);
+                } else if(data.geometryType === 'tetra') {
+                    pGeo = new THREE.TetrahedronGeometry(data.size, 1);
+                } else {
+                    pGeo = new THREE.SphereGeometry(data.size, 16, 16);
+                }
+
+                const pMat = new THREE.MeshBasicMaterial({ 
+                    color: data.color, 
+                    wireframe: data.wireframe || false,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                
+                const planetMesh = new THREE.Mesh(pGeo, pMat);
+
+                // Glowing Sharp Orbit lines
+                const orbitGeo = new THREE.BufferGeometry();
+                const orbitPoints = [];
+                for(let j = 0; j <= 128; j++) {
+                    let angle = (j / 128) * Math.PI * 2;
+                    orbitPoints.push(new THREE.Vector3(Math.cos(angle) * data.radius, 0, Math.sin(angle) * data.radius));
+                }
+                orbitGeo.setFromPoints(orbitPoints);
+                const orbitMat = new THREE.LineBasicMaterial({ color: data.color, transparent: true, opacity: 0.2 });
+                const orbitLine = new THREE.Line(orbitGeo, orbitMat);
+                scene.add(orbitLine);
+
+                // Adding custom design features like planetary sub-rings
+                if(data.rings) {
+                    const rGeo = new THREE.TorusGeometry(data.size + 1.5, 0.1, 2, 32);
+                    const rMat = new THREE.MeshBasicMaterial({color: 0x00ffff, wireframe: true});
+                    const rMesh = new THREE.Mesh(rGeo, rMat);
+                    rMesh.rotation.x = Math.PI/2;
+                    planetMesh.add(rMesh);
+                }
+
+                scene.add(planetMesh);
+
+                neonOrbits.push({
+                    mesh: planetMesh,
+                    radius: data.radius,
+                    speed: data.speed,
+                    angle: Math.random() * Math.PI * 2,
+                    rotSpeed: (Math.random() * 0.02) + 0.01
+                });
+            });
+
+            // Event Listeners
+            window.addEventListener('resize', onWindowResize, false);
+            document.addEventListener('mousemove', onMouseMove, false);
+        }
+
+        function onMouseMove(event) {
+            // Screen center se mouse ka distance measure karna reality-bending effect ke liye
+            mouseX = (event.clientX - window.innerWidth / 2) * 0.05;
+            mouseY = (event.clientY - window.innerHeight / 2) * 0.05;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Warp Speed Feature!
+        function triggerWarp() {
+            targetWarpSpeed = 0.015;
+            document.getElementById('warp-btn').innerText = "HYPER DRIVE ACTIVE!";
+            setTimeout(() => {
+                targetWarpSpeed = 0.001;
+                document.getElementById('warp-btn').innerText = "ACTIVATE HYPER-WARP";
+            }, 3000);
+        }
+
+        // 6. Main Dynamic Animation Engine
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Interpolate speed smoothly for warp drive
+            currentWarpSpeed += (targetWarpSpeed - currentWarpSpeed) * 0.05;
+
+            // Core rotations (Opposite directions for matrix glitch effect)
+            core.children[0].rotation.y += 0.01;
+            core.children[0].rotation.x += 0.005;
+            core.children[1].rotation.y -= 0.02;
+            
+            // Mouse Interaction: Universe bends slightly based on where you move mouse
+            particleSystem.rotation.y += 0.001 + currentWarpSpeed;
+            particleSystem.rotation.x += (mouseY * 0.001 - particleSystem.rotation.x) * 0.05;
+            particleSystem.rotation.z += (mouseX * 0.001 - particleSystem.rotation.z) * 0.05;
+
+            // Moving individual planets in cyber patterns
+            neonOrbits.forEach((obj, i) => {
+                obj.angle += obj.speed + (currentWarpSpeed * 2);
+                
+                // standard orbit me variable wave movement dynamically inject ki hai (Unique)
+                let waveEffect = Math.sin(obj.angle * 3) * 1.5; 
+                
+                obj.mesh.position.x = Math.cos(obj.angle) * (obj.radius + waveEffect);
+                obj.mesh.position.z = Math.sin(obj.angle) * (obj.radius + waveEffect);
+                obj.mesh.position.y = Math.sin(obj.angle * 2) * 2; // Up and down wave movement
+
+                obj.mesh.rotation.x += obj.rotSpeed;
+                obj.mesh.rotation.y += obj.rotSpeed;
+            });
+
+            // Dynamic camera reaction to mouse movement
+            camera.position.x += (mouseX * 0.1 - camera.position.x) * 0.02;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Initialize and Run
+        init();
+        animate();
+    </script>
+</body>
+</html>

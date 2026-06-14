@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Dear Antima 💗</title>
+    <!-- Solid aur bold text ke liye Google Fonts link kiya hai -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 50%, #ffb3c6 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Ambient Background Slow Floating Particles */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.4;
+            font-size: 24px;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0.7; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.3); opacity: 0; }
+        }
+
+        /* Main Container Card */
+        .container {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            padding: 50px 35px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(255, 75, 110, 0.3);
+            text-align: center;
+            max-width: 620px;
+            width: 90%;
+            border: 2px solid #ff85a2;
+            z-index: 10;
+            animation: fadeIn 1.5s ease-in-out;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .sad-emoji {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Front Page Title */
+        h1 {
+            color: #ff4b6e;
+            margin-bottom: 25px;
+            font-size: 46px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.08);
+        }
+
+        /* Front Page Sorry Message */
+        .message {
+            color: #3d3d3d;
+            font-size: 22px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        /* Interactive Button */
+        .btn-press {
+            background: linear-gradient(45deg, #ff4b6e, #ff85a2);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 21px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(255, 75, 110, 0.4);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .btn-press:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(255, 75, 110, 0.6);
+        }
+
+        /* Hidden Love Section */
+        .love-section {
+            display: none;
+            margin-top: 10px;
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* EXTRA BOLD & CLEAR: Final Love Message Font */
+        .love-message {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 44px; /* Ekdum Bada aur Solid Size */
+            font-weight: 900; /* Super Bold */
+            color: #ff0a54;
+            text-shadow: 3px 3px 10px rgba(255, 10, 84, 0.3);
+            margin-top: 20px;
+            line-height: 1.3;
+            letter-spacing: 1px;
+            text-transform: uppercase; /* Saaf dikhne ke liye uppercase kiya */
+        }
+
+        .big-heart {
+            font-size: 95px;
+            color: #ff0a54;
+            animation: beat 0.6s infinite alternate;
+            display: inline-block;
+        }
+
+        @keyframes beat {
+            to { transform: scale(1.25); }
+        }
+
+        /* Heavy Shower Elements (Rain) */
+        .falling-element {
+            position: absolute;
+            top: -60px;
+            pointer-events: none;
+            animation: fallDown linear forwards;
+            z-index: 100;
+        }
+
+        /* CLEAR & BOLD: Falling Name Design Styling */
+        .falling-name {
+            font-family: 'Montserrat', sans-serif;
+            color: #ff3366;
+            font-weight: 900; /* Full Bold text */
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.9), 0 0 10px rgba(255, 51, 102, 0.4);
+            white-space: nowrap;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fallDown {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.7) rotate(0deg);
+                opacity: 0;
+            }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% {
+                transform: translateY(105vh) translateX(70px) scale(1.1) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Elements Container -->
+    <div id="particles-container"></div>
+
+    <div class="container">
+        <div class="sad-emoji">🥺❤️🩹</div>
+        
+        <!-- Front Heading -->
+        <h1>Dear Antima 💗</h1>
+        
+        <!-- Sorry Message -->
+        <p class="message" id="sorryMsg">
+            Hey babe, I often trouble you—sometimes I don't talk properly, and at times I don't even make time for you. I am truly sorry for that. I've been a bit busy, which is why I haven't been able to talk much. Sorry, babe.
+        </p>
+
+        <!-- Press Here Button -->
+        <button class="btn-press" id="pressBtn">Press Here</button>
+
+        <!-- Final Love Section (Bada aur Ultra-Clear Font) -->
+        <div class="love-section" id="loveSection">
+            <div class="big-heart">💝</div>
+            <div class="love-message">I LOVE YOU DEAR ANTIMA 💗</div>
+        </div>
+    </div>
+
+    <script>
+        // Slow slow background particles
+        const particlesContainer = document.getElementById('particles-container');
+        const bgShapes = ['❤️', '🌸', '💖', '🌹', '✨', '💝', '🫶'];
+
+        function createBgParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.innerText = bgShapes[Math.floor(Math.random() * bgShapes.length)];
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
+            particlesContainer.appendChild(particle);
+            setTimeout(() => { particle.remove(); }, 7000);
+        }
+        setInterval(createBgParticle, 450);
+
+        // Mix Rain Shower: Bold Hearts + Clear "Antima" texts
+        const heartShapes = ['❤️', '💖', '💝', '💗', '💕'];
+        
+        function spawnShowerElement() {
+            const element = document.createElement('div');
+            element.classList.add('falling-element');
+            
+            // 40% chance dil girega, 60% chance mota mota clear "Antima" naam barsega
+            if (Math.random() > 0.6) {
+                element.innerText = heartShapes[Math.floor(Math.random() * heartShapes.length)];
+                element.style.fontSize = (Math.random() * 20 + 25) + 'px'; // 25px to 45px
+            } else {
+                element.innerText = "Antima 💗";
+                element.classList.add('falling-name');
+                element.style.fontSize = (Math.random() * 15 + 28) + 'px'; // 28px to 43px Bada Bold text
+            }
+            
+            // Positioning and random falling speed
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.animationDuration = (Math.random() * 1.8 + 1.7) + 's'; // Perfect video recording speed
+            
+            document.body.appendChild(element);
+
+            setTimeout(() => {
+                element.remove();
+            }, 3500);
+        }
+
+        // Click Logic
+        const pressBtn = document.getElementById('pressBtn');
+        const sorryMsg = document.getElementById('sorryMsg');
+        const loveSection = document.getElementById('loveSection');
+
+        pressBtn.addEventListener('click', () => {
+            // Hiding components to clean screen space
+            pressBtn.style.display = 'none'; 
+            sorryMsg.style.display = 'none'; 
+            
+            // Displaying bold clear final message
+            loveSection.style.display = 'block'; 
+
+            // Immediate Blast: 50 items instantly on screen
+            for(let i = 0; i < 50; i++) {
+                setTimeout(spawnShowerElement, i * 15);
+            }
+
+            // Heavy Rain: Lagatar clear texts aur hearts ki baarish 10 seconds tak
+            const rainInterval = setInterval(spawnShowerElement, 50); 
+            
+            // Stop heavy shower after 10s
+            setTimeout(() => {
+                clearInterval(rainInterval);
+            }, 10000);
+        });
+    </script>
+</body>
+</html>
